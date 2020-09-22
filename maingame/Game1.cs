@@ -1,5 +1,6 @@
 ﻿using firstrate.animation;
 using firstrate.collision;
+using firstrate.screens;
 using firstrate.selectscreen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,6 +23,10 @@ namespace firstrate
         private SelectScreen loadSelectScreen = new SelectScreen();
 
         //first area screen
+        private Texture2D firstScreen;
+        private FirstScreen loadFirstScreen = new FirstScreen();
+
+        //characters
         private Texture2D emberCharacter;
         private Texture2D gioCharacter;
 
@@ -71,11 +76,13 @@ namespace firstrate
             //load select screen
             selectScreen = Content.Load<Texture2D>("selectscreen/selectscreen");
             selector = Content.Load<Texture2D>("selectscreen/selector");
-           
+
+            //load firstscreen
+            firstScreen = Content.Load<Texture2D>("firstarea/testbackground");
             
             //load characters
-            gioCharacter = Content.Load<Texture2D>("firstarea/giosprite");
-            emberCharacter = Content.Load<Texture2D>("firstarea/embersprite");
+            gioCharacter = Content.Load<Texture2D>("sprites/giowalkcycle");
+            emberCharacter = Content.Load<Texture2D>("sprites/embersprite");
             moveSprite = new MoveSprite(350, 350, gioCharacter);
 
             //test
@@ -111,7 +118,7 @@ namespace firstrate
 
             if(animationTimer > 100)
             {
-                moveSprite.Update();
+                moveSprite.Update(loadFirstScreen.levelMap);
                 animationTimer = 0;
             }
            
@@ -124,8 +131,6 @@ namespace firstrate
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
             spriteBatch.Begin();
 
             //draw select screen
@@ -133,12 +138,14 @@ namespace firstrate
             {
                 loadSelectScreen.Draw(spriteBatch, selectScreen, selector);
             }
+            else 
+            {
+                loadFirstScreen.Draw(spriteBatch, firstScreen);
+            }
             
             if(loadSelectScreen.selected.Equals("Gio"))
             {
                 moveSprite.Draw(spriteBatch, gioCharacter);
-                spriteBatch.Draw(pixelSquare, new Vector2(0, 0), Color.White);
-                spriteBatch.Draw(pixelSquare, new Vector2(630, 630), Color.White);
             }
             else if(loadSelectScreen.selected.Equals("Ember"))
             {

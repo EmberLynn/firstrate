@@ -30,25 +30,25 @@ namespace firstrate.animation
         {
             KeyboardState keyboardState = Keyboard.GetState();
            
-            if (keyboardState.IsKeyDown(Keys.A) && x > 0)
+            if (keyboardState.IsKeyDown(Keys.A) && x > levelMap.lowX)
             {
                 x -= 7;
                 row = 2;
                 animateSprite.Update();
             }
-            else if (keyboardState.IsKeyDown(Keys.D) && x < 655)
+            else if (keyboardState.IsKeyDown(Keys.D) && x < levelMap.highX)
             {
                 x += 7;
                 row = 3;
                 animateSprite.Update();
             }
-            else if (keyboardState.IsKeyDown(Keys.W))
+            else if (keyboardState.IsKeyDown(Keys.W) && y > levelMap.lowY)
             {
                 y -= 6;
                 row = 1;
                 animateSprite.Update();
             }
-            else if (keyboardState.IsKeyDown(Keys.S))
+            else if (keyboardState.IsKeyDown(Keys.S) && y < levelMap.highY)
             {
                 y += 6;
                 row = 0;
