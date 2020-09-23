@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="animation\AnimateSprite.cs" />
     <Compile Include="animation\MoveSprite.cs" />
+    <Compile Include="collision\BoundingBox.cs" />
     <Compile Include="collision\LevelMap.cs" />
     <Compile Include="maingame\Game1.cs" />
     <Compile Include="maingame\Program.cs" />
@@ -72,6 +73,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />

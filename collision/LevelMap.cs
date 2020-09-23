@@ -23,5 +23,7 @@ namespace firstrate.collision
             this.highY = highY;
             this.lowY = lowY;
         }
+
+        //has array of bounding boxes
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using BoundingBox = firstrate.collision.BoundingBox;
 
 namespace firstrate
 {
@@ -36,6 +37,7 @@ namespace firstrate
 
         //test
         private Texture2D pixelSquare;
+        private BoundingBox testBoundingBox;
 
         //collision
         private LevelMap levelMap;
@@ -87,6 +89,7 @@ namespace firstrate
 
             //test
             pixelSquare = Content.Load<Texture2D>("test/70sqpixel");
+            testBoundingBox = new BoundingBox(new Vector2(300, 100), 75, 75);
         }
 
         /// <summary>
@@ -118,7 +121,7 @@ namespace firstrate
 
             if(animationTimer > 100)
             {
-                moveSprite.Update(loadFirstScreen.levelMap);
+                moveSprite.Update(loadFirstScreen.levelMap, testBoundingBox);
                 animationTimer = 0;
             }
            
@@ -145,12 +148,14 @@ namespace firstrate
             
             if(loadSelectScreen.selected.Equals("Gio"))
             {
-                moveSprite.Draw(spriteBatch, gioCharacter);
+                moveSprite.Draw(spriteBatch);
             }
             else if(loadSelectScreen.selected.Equals("Ember"))
             {
                 spriteBatch.Draw(emberCharacter, new Vector2(350, 350), Color.White);
             }
+
+            spriteBatch.Draw(pixelSquare, testBoundingBox.Position, Color.White);
 
             spriteBatch.End();
 
