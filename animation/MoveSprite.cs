@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using firstrate.collision;
 using BoundingBox = firstrate.collision.BoundingBox;
+
 namespace firstrate.animation
 {
     class MoveSprite
@@ -21,7 +22,8 @@ namespace firstrate.animation
         private Vector2 currentPosition;
         private Vector2 oldPosition;
         private KeyboardState oldState;
-        private Keys movementKey;
+        //private Keys movementKey;
+        private char lastKey;
 
 
         public MoveSprite(int x, int y, Texture2D character) 
@@ -58,25 +60,45 @@ namespace firstrate.animation
 
             }
 
-            if (keyboardState.IsKeyDown(Keys.W) && y > levelMap.lowY)
+            //if key was not pressed down in previous state, it is the new pressed key
+            //but doesn't work if current pressed key is released
+            if(keyboardState.IsKeyDown(Keys.W) && oldState.IsKeyUp(Keys.W))
+            {
+                lastKey = 'W';
+            }
+            if (keyboardState.IsKeyDown(Keys.A) && oldState.IsKeyUp(Keys.A))
+            {
+                lastKey = 'A';
+            }
+            if (keyboardState.IsKeyDown(Keys.S) && oldState.IsKeyUp(Keys.S))
+            {
+                lastKey = 'S';
+            }
+            if (keyboardState.IsKeyDown(Keys.D) && oldState.IsKeyUp(Keys.D))
+            {
+                lastKey = 'D';
+            }
+
+            //locks out all other movement, but not in regards to last key press
+            if (lastKey == 'W' && keyboardState.IsKeyDown(Keys.W) && y > levelMap.lowY)
             {
                 y -= 6;
                 row = 1;
                 animateSprite.Update();
             }
-            else if (keyboardState.IsKeyDown(Keys.A) && x > levelMap.lowX)
+            if (lastKey == 'A' && keyboardState.IsKeyDown(Keys.A) && x > levelMap.lowX)
             {
                 x -= 7;
                 row = 2;
                 animateSprite.Update();
             }
-            else if (keyboardState.IsKeyDown(Keys.D) && x < levelMap.highX)
+            if (lastKey == 'D' && keyboardState.IsKeyDown(Keys.D)  && x < levelMap.highX)
             {
                 x += 7;
                 row = 3;
                 animateSprite.Update();
             }
-            else if (keyboardState.IsKeyDown(Keys.S) && y < levelMap.highY)
+            if (lastKey == 'S' && keyboardState.IsKeyDown(Keys.S)  && y < levelMap.highY)
             {
                 y += 6;
                 row = 0;
@@ -85,7 +107,7 @@ namespace firstrate.animation
             oldPosition = boundingBox.Position;
             oldState = keyboardState;
             boundingBox.Position = new Vector2(x, y);
-   
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
