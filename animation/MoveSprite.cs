@@ -13,8 +13,9 @@ namespace firstrate.animation
 {
     class MoveSprite
     {
-        private int x;
-        private int y;
+        public int x { get;  set; }
+        public int y { get; set; }
+        public bool isSet;
         private int row;
         private AnimateSprite animateSprite;
         private LevelMap levelMap;
@@ -23,14 +24,14 @@ namespace firstrate.animation
         private KeyboardState oldState;
         //private Keys movementKey;
         private List<char> keys = new List<char>();
+        
 
 
-        public MoveSprite(int x, int y, Texture2D character) 
+        public MoveSprite(Texture2D character) 
         {
-            this.x = x;
-            this.y = y;
             boundingBox = new BoundingBox(new Vector2(x, y), 45, 71);
             animateSprite = new AnimateSprite(character,4,4);
+            isSet = false;
         }
 
         //other box is for testing; will be using level map instead
@@ -140,6 +141,7 @@ namespace firstrate.animation
         public void Draw(SpriteBatch spriteBatch)
         {
             animateSprite.Draw(spriteBatch, boundingBox.Position, row);
+            isSet = true;
             //spriteBatch.Draw(character, new Vector2(x, y), Color.White);
         }
 

@@ -32,7 +32,8 @@ namespace firstrate
         private Texture2D gioCharacter;
 
         //character movement
-        private MoveSprite moveSprite;
+        private MoveSprite moveGio;
+        private MoveSprite moveEmber;
         private float animationTimer;
 
         //test
@@ -84,8 +85,9 @@ namespace firstrate
             
             //load characters
             gioCharacter = Content.Load<Texture2D>("sprites/giowalkcycle");
-            emberCharacter = Content.Load<Texture2D>("sprites/embersprite");
-            moveSprite = new MoveSprite(350, 350, gioCharacter);
+            emberCharacter = Content.Load<Texture2D>("sprites/emberwalkcycle");
+            moveGio = new MoveSprite(gioCharacter);
+            moveEmber = new MoveSprite(emberCharacter);
 
             //test
             pixelSquare = Content.Load<Texture2D>("test/70sqpixel");
@@ -121,7 +123,8 @@ namespace firstrate
 
             if(animationTimer > 100)
             {
-                moveSprite.Update(loadFirstScreen.levelMap);
+                moveGio.Update(loadFirstScreen.levelMap);
+                moveEmber.Update(loadFirstScreen.levelMap);
                 animationTimer = 0;
             }
            
@@ -148,11 +151,23 @@ namespace firstrate
             
             if(loadSelectScreen.selected.Equals("Gio"))
             {
-                moveSprite.Draw(spriteBatch);
+                if(!moveGio.isSet)
+                {
+                    moveGio.x = 350;
+                    moveGio.y = 350;
+                }
+                if (!moveEmber.isSet)
+                {
+                    moveEmber.x = 400;
+                    moveEmber.y = 350;
+                }
+
+                moveGio.Draw(spriteBatch);
+                moveEmber.Draw(spriteBatch);
             }
             else if(loadSelectScreen.selected.Equals("Ember"))
             {
-                spriteBatch.Draw(emberCharacter, new Vector2(350, 350), Color.White);
+                moveEmber.Draw(spriteBatch);
             }
 
             //spriteBatch.Draw(pixelSquare, testBoundingBox.Position, Color.White);

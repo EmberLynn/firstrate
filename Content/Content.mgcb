@@ -49,7 +49,7 @@
 /processorParam:TextureFormat=Color
 /build:selectscreen/selectscreen.png
 
-#begin sprites/embersprite.png
+#begin sprites/emberwalkcycle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,7 +59,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/embersprite.png
+/build:sprites/emberwalkcycle.png
 
 #begin sprites/giowalkcycle.png
 /importer:TextureImporter
