@@ -34,31 +34,39 @@ namespace firstrate.animation
         }
 
         //other box is for testing; will be using level map instead
-        public void Update(LevelMap levelMap, BoundingBox otherBox)
+        public void Update(LevelMap levelMap)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (boundingBox.collisionCheck(otherBox))
+            if(keys.Count > 0) 
             {
-                boundingBox.Position = oldPosition;
-                if (keys[keys.Count - 1] == 'W')
+                foreach (BoundingBox box in levelMap.items)
                 {
-                    y += 6;
-                }
-                if (keys[keys.Count-1] == 'S')
-                {
-                    y -= 6;
-                }
-                if (keys[keys.Count - 1] == 'A')
-                {
-                    x += 7;
-                }
-                if (keys[keys.Count - 1] == 'D')
-                {
-                    x -= 7;
-                }
+                    if (boundingBox.collisionCheck(box) || boundingBox.borderCollision(levelMap))
+                    {
+                        boundingBox.Position = oldPosition;
+                        if (keys[keys.Count - 1] == 'W')
+                        {
+                            y += 6;
+                        }
+                        if (keys[keys.Count - 1] == 'S')
+                        {
+                            y -= 6;
+                        }
+                        if (keys[keys.Count - 1] == 'A')
+                        {
+                            x += 7;
+                        }
+                        if (keys[keys.Count - 1] == 'D')
+                        {
+                            x -= 7;
+                        }
 
+                    }
+                }
             }
+            
+            
             
             if(keyboardState.IsKeyDown(Keys.A) && oldState.IsKeyUp(Keys.A))
             {
@@ -96,25 +104,25 @@ namespace firstrate.animation
            
             if(keys.Count != 0) 
             {
-                if (keys[keys.Count - 1] == 'W' && keyboardState.IsKeyDown(Keys.W) && y > levelMap.lowY)
+                if (keys[keys.Count - 1] == 'W' && keyboardState.IsKeyDown(Keys.W))
                 {
                     y -= 6;
                     row = 1;
                     animateSprite.Update();
                 }
-                if (keys[keys.Count-1] == 'A' && keyboardState.IsKeyDown(Keys.A) && x > levelMap.lowX)
+                if (keys[keys.Count-1] == 'A' && keyboardState.IsKeyDown(Keys.A))
                 {
                     x -= 7;
                     row = 2;
                     animateSprite.Update();
                 }
-                if (keys[keys.Count - 1] == 'S' && keyboardState.IsKeyDown(Keys.S) && y < levelMap.highY)
+                if (keys[keys.Count - 1] == 'S' && keyboardState.IsKeyDown(Keys.S))
                 {
                     y += 6;
                     row = 0;
                     animateSprite.Update();
                 }
-                if (keys[keys.Count-1] == 'D' && keyboardState.IsKeyDown(Keys.D) && x < levelMap.highX)
+                if (keys[keys.Count-1] == 'D' && keyboardState.IsKeyDown(Keys.D))
                 {
                     x += 7;
                     row = 3;

@@ -121,7 +121,7 @@ namespace firstrate
 
             if(animationTimer > 100)
             {
-                moveSprite.Update(loadFirstScreen.levelMap, testBoundingBox);
+                moveSprite.Update(loadFirstScreen.levelMap);
                 animationTimer = 0;
             }
            
@@ -155,7 +155,7 @@ namespace firstrate
                 spriteBatch.Draw(emberCharacter, new Vector2(350, 350), Color.White);
             }
 
-            spriteBatch.Draw(pixelSquare, testBoundingBox.Position, Color.White);
+            //spriteBatch.Draw(pixelSquare, testBoundingBox.Position, Color.White);
 
             spriteBatch.End();
 

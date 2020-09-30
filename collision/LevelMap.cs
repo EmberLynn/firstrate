@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace firstrate.collision
         public int lowX { get; }
         public int highY { get; }
         public int lowY { get; }
+
+        public List<BoundingBox> items { get; set; }
         
         public LevelMap(int highX, int lowX, int highY, int lowY) 
         {
@@ -22,8 +25,22 @@ namespace firstrate.collision
             this.lowX = lowX;
             this.highY = highY;
             this.lowY = lowY;
+            this.items = new List<BoundingBox>();
         }
 
-        //has array of bounding boxes
+        public void addObjects(List<int> coordinates)
+        {
+            int y = 0;
+            int x = 0;
+
+            for(int i = 0; i < coordinates.Count-1; i+=2)
+            {
+                x = (coordinates[i] - 1) * 70;
+                y = (coordinates[i + 1] - 1) * 70;
+                items.Add(new BoundingBox(new Vector2(x, y), 75, 75));
+            }
+            
+        }
+
     }
 }

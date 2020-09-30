@@ -58,5 +58,16 @@ namespace firstrate.collision
             }
             return false;
         }
+
+        public bool borderCollision(LevelMap levelMap)
+        {
+            if(this.left < levelMap.lowX
+                || this.right > levelMap.highX
+                || this.top < levelMap.lowY
+                || this. bottom > levelMap.highY)
+                return true;
+
+            return false;
+        }
     }
 }
