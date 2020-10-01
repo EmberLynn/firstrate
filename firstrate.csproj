@@ -58,7 +58,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="animation\AnimateSprite.cs" />
-    <Compile Include="animation\MoveSprite.cs" />
+    <Compile Include="animation\FollowingSprite.cs" />
+    <Compile Include="animation\MainSprite.cs" />
     <Compile Include="collision\BoundingBox.cs" />
     <Compile Include="collision\LevelMap.cs" />
     <Compile Include="maingame\Game1.cs" />

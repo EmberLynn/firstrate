@@ -32,8 +32,8 @@ namespace firstrate
         private Texture2D gioCharacter;
 
         //character movement
-        private MoveSprite moveGio;
-        private MoveSprite moveEmber;
+        private MainSprite moveGio;
+        private FollowingSprite moveEmber;
         private float animationTimer;
 
         //test
@@ -86,8 +86,8 @@ namespace firstrate
             //load characters
             gioCharacter = Content.Load<Texture2D>("sprites/giowalkcycle");
             emberCharacter = Content.Load<Texture2D>("sprites/emberwalkcycle");
-            moveGio = new MoveSprite(gioCharacter);
-            moveEmber = new MoveSprite(emberCharacter);
+            moveEmber = new FollowingSprite(emberCharacter, 350, 350);
+            moveGio = new MainSprite(gioCharacter, moveEmber, 350, 350);
 
             //test
             pixelSquare = Content.Load<Texture2D>("test/70sqpixel");
@@ -121,10 +121,11 @@ namespace firstrate
 
             animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if(animationTimer > 100)
+            if(animationTimer > 120)
             {
+                //try chaning timer for both characters
                 moveGio.Update(loadFirstScreen.levelMap);
-                moveEmber.Update(loadFirstScreen.levelMap);
+                //moveEmber.Update(loadFirstScreen.levelMap);
                 animationTimer = 0;
             }
            
@@ -151,23 +152,13 @@ namespace firstrate
             
             if(loadSelectScreen.selected.Equals("Gio"))
             {
-                if(!moveGio.isSet)
-                {
-                    moveGio.x = 350;
-                    moveGio.y = 350;
-                }
-                if (!moveEmber.isSet)
-                {
-                    moveEmber.x = 400;
-                    moveEmber.y = 350;
-                }
-
+               
                 moveGio.Draw(spriteBatch);
                 moveEmber.Draw(spriteBatch);
             }
             else if(loadSelectScreen.selected.Equals("Ember"))
             {
-                moveEmber.Draw(spriteBatch);
+                //moveEmber.Draw(spriteBatch);
             }
 
             //spriteBatch.Draw(pixelSquare, testBoundingBox.Position, Color.White);

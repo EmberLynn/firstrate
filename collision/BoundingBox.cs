@@ -14,7 +14,7 @@ namespace firstrate.collision
             get { return position; }
             set { position = value; }
         }
-        private Vector2 position;
+        public Vector2 position;
 
         public float width { get; set; }
         public float height { get; set; }
