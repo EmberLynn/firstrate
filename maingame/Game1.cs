@@ -41,7 +41,6 @@ namespace firstrate
         private BoundingBox testBoundingBox;
 
         //collision
-        private LevelMap levelMap;
 
         public Game1()
         {
@@ -86,7 +85,7 @@ namespace firstrate
             //load characters
             gioCharacter = Content.Load<Texture2D>("sprites/giowalkcycle");
             emberCharacter = Content.Load<Texture2D>("sprites/emberwalkcycle");
-            moveEmber = new FollowingSprite(emberCharacter, 350, 350);
+            moveEmber = new FollowingSprite(emberCharacter, 350, 349);
             moveGio = new MainSprite(gioCharacter, moveEmber, 350, 350);
 
             //test
@@ -121,14 +120,12 @@ namespace firstrate
 
             animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if(animationTimer > 120)
+            if (animationTimer > 120)
             {
-                //try chaning timer for both characters
                 moveGio.Update(loadFirstScreen.levelMap);
-                //moveEmber.Update(loadFirstScreen.levelMap);
                 animationTimer = 0;
             }
-           
+
             base.Update(gameTime);
         }
 
@@ -152,9 +149,17 @@ namespace firstrate
             
             if(loadSelectScreen.selected.Equals("Gio"))
             {
-               
-                moveGio.Draw(spriteBatch);
-                moveEmber.Draw(spriteBatch);
+                if(moveEmber.y < moveGio.y)
+                {
+                    moveEmber.Draw(spriteBatch);
+                    moveGio.Draw(spriteBatch);
+                }
+                else
+                {
+                    moveGio.Draw(spriteBatch);
+                    moveEmber.Draw(spriteBatch);
+                }
+                
             }
             else if(loadSelectScreen.selected.Equals("Ember"))
             {

@@ -13,10 +13,10 @@ namespace firstrate.animation
 {
     class MainSprite
     {
-        private int x;
-        private int y; 
+        public int x {get; set;}
+        public int y { get; set; } 
         
-        private int row;
+        public int row { get; set; }
         private AnimateSprite animateSprite;
         private BoundingBox boundingBox;
         public Vector2 oldPosition { set; get; }
@@ -115,18 +115,17 @@ namespace firstrate.animation
                     {
                         y -= 6;
                         row = 1;
-
-                }
+                    }
                     if (keys[keys.Count - 1] == 'A' && keyboardState.IsKeyDown(Keys.A))
                     {
                         x -= 7;
                         row = 2;
-                }
+                    }
                     if (keys[keys.Count - 1] == 'S' && keyboardState.IsKeyDown(Keys.S))
                     {
                         y += 6;
                         row = 0;
-                }
+                    }
                     if (keys[keys.Count - 1] == 'D' && keyboardState.IsKeyDown(Keys.D))
                     {
                         x += 7;
@@ -134,7 +133,7 @@ namespace firstrate.animation
                 }
                 animateSprite.Update();
                 followingSprite.Update(x, y, row);
-
+                followingSprite.Update(x, y, row);
             }
 
            

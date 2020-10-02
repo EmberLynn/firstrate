@@ -11,8 +11,8 @@ namespace firstrate.animation
 
     class FollowingSprite
     {
-        public int x;
-        public int y;
+        public int x { get; set; }
+        public int y { get; set; }
 
         private int row;
         private AnimateSprite animateSprite;
@@ -28,35 +28,38 @@ namespace firstrate.animation
 
         public void Update(int x, int y, int row)
         {
-            if(movementBuffer.Count < 12)
+            if(movementBuffer.Count < 15)
             {
                 movementBuffer.Add(x);
                 movementBuffer.Add(y);
             }
             else 
             {
-
+                
                 if (this.y < movementBuffer[1])
                 {
-                    this.row = row;
+                    this.row = 0;
                     this.y = movementBuffer[1];
+                    animateSprite.Update();
                 }
                 if (this.x < movementBuffer[0])
                 {
-                    this.row = row;
+                    this.row = 3;
                     this.x = movementBuffer[0];
+                    animateSprite.Update();
                 }
                 if (this.x > movementBuffer[0])
                 {
-                    this.row = row;
+                    this.row = 2;
                     this.x = movementBuffer[0];
+                    animateSprite.Update();
                 }
                 if (this.y > movementBuffer[1])
                 {
-                    this.row = row;
+                    this.row = 1;
                     this.y = movementBuffer[1];
+                    animateSprite.Update();
                 }
-                animateSprite.Update();
                 movementBuffer.RemoveAt(0);
                 movementBuffer.RemoveAt(0);
             }
