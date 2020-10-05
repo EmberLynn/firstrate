@@ -32,8 +32,8 @@ namespace firstrate
         private Texture2D gioCharacter;
 
         //character movement
-        private MainSprite moveGio;
-        private FollowingSprite moveEmber;
+        private MainSprite main;
+        private FollowingSprite following;
         private float animationTimer;
 
         //test
@@ -85,8 +85,7 @@ namespace firstrate
             //load characters
             gioCharacter = Content.Load<Texture2D>("sprites/giowalkcycle");
             emberCharacter = Content.Load<Texture2D>("sprites/emberwalkcycle");
-            moveEmber = new FollowingSprite(emberCharacter, 350, 349);
-            moveGio = new MainSprite(gioCharacter, moveEmber, 350, 350);
+           
 
             //test
             pixelSquare = Content.Load<Texture2D>("test/70sqpixel");
@@ -117,15 +116,17 @@ namespace firstrate
             {
                 loadSelectScreen.Update();
             }
-
-            animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            if (animationTimer > 120)
+            else
             {
-                moveGio.Update(loadFirstScreen.levelMap);
-                animationTimer = 0;
-            }
+                animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
+                if (animationTimer > 120)
+                {
+                    main.Update(loadFirstScreen.levelMap);
+                    animationTimer = 0;
+                }
+            }
+    
             base.Update(gameTime);
         }
 
@@ -145,28 +146,40 @@ namespace firstrate
             else 
             {
                 loadFirstScreen.Draw(spriteBatch, firstScreen);
-            }
-            
-            if(loadSelectScreen.selected.Equals("Gio"))
-            {
-                if(moveEmber.y < moveGio.y)
+
+                //decide who is main and who is following character(s)
+                if (loadSelectScreen.selected.Equals("Gio"))
                 {
-                    moveEmber.Draw(spriteBatch);
-                    moveGio.Draw(spriteBatch);
+                    if (main == null && following == null)
+                    {
+                        following = new FollowingSprite(emberCharacter, 350, 349);
+                        main = new MainSprite(gioCharacter, following, 350, 350);
+                    }
+
+                }
+                else if (loadSelectScreen.selected.Equals("Ember"))
+                {
+                    if (main == null && following == null)
+                    {
+                        following = new FollowingSprite(gioCharacter, 350, 349);
+                        main = new MainSprite(emberCharacter, following, 350, 350);
+                    }
+
+                }
+
+                //draw main character and following character(s)
+                if (following.y <= main.y)
+                {
+                    following.Draw(spriteBatch);
+                    main.Draw(spriteBatch);
                 }
                 else
                 {
-                    moveGio.Draw(spriteBatch);
-                    moveEmber.Draw(spriteBatch);
+                    main.Draw(spriteBatch);
+                    following.Draw(spriteBatch);
                 }
-                
-            }
-            else if(loadSelectScreen.selected.Equals("Ember"))
-            {
-                //moveEmber.Draw(spriteBatch);
-            }
 
-            //spriteBatch.Draw(pixelSquare, testBoundingBox.Position, Color.White);
+            }
 
             spriteBatch.End();
 
