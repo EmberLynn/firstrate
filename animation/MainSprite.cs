@@ -21,7 +21,6 @@ namespace firstrate.animation
         private BoundingBox boundingBox;
         public Vector2 oldPosition { set; get; }
         private KeyboardState oldState;
-        //private Keys movementKey;
         private List<char> keys = new List<char>();
 
         //following
@@ -31,7 +30,7 @@ namespace firstrate.animation
 
         public MainSprite(Texture2D character, FollowingSprite followingSprite ,int x, int y) 
         {
-            boundingBox = new BoundingBox(new Vector2(x, y), 45, 70);
+            boundingBox = new BoundingBox(new Vector2(x, y), 45, 50);
             animateSprite = new AnimateSprite(character,4,4);
             this.followingSprite = followingSprite;
             this.x = x;
@@ -39,7 +38,6 @@ namespace firstrate.animation
        
         }
 
-        //other box is for testing; will be using level map instead
         public void Update(LevelMap levelMap)
         {
             KeyboardState keyboardState = Keyboard.GetState();

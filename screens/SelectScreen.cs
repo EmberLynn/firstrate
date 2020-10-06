@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -20,15 +21,29 @@ namespace firstrate.selectscreen
         //Old keyboard state
         private KeyboardState oldState;
 
-        public SelectScreen()
+        //textures
+        private Texture2D selectScreen;
+        private Texture2D selector;
+
+        private ContentManager content;
+
+        public SelectScreen(ContentManager Content)
         {
             selectorX = 172;
             selectorY = 270;
             isDone = false;
             selected = "";
+            this.selectScreen = Content.Load<Texture2D>("selectscreen/selectscreen");
+            this.selector = Content.Load<Texture2D>("selectscreen/selector");
+            this.content = Content;
         }
 
-
+        public void UnloadContent()
+        {
+            selectScreen.Dispose();
+            selector.Dispose();
+        }
+    
         public void Update()
         {
             KeyboardState keyboardState = Keyboard.GetState();
@@ -56,13 +71,13 @@ namespace firstrate.selectscreen
             oldState = keyboardState;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Texture2D selectScreen, Texture2D selector) 
+        public void Draw(SpriteBatch spriteBatch) 
         {
             //draw select screen
-            spriteBatch.Draw(selectScreen, new Rectangle(0, 0, 700, 700), Color.White);
+            spriteBatch.Draw(this.selectScreen, new Rectangle(0, 0, 700, 700), Color.White);
 
             //draw selector
-            spriteBatch.Draw(selector, new Vector2(selectorX, selectorY), Color.White);
+            spriteBatch.Draw(this.selector, new Vector2(selectorX, selectorY), Color.White);
         }
 
     }

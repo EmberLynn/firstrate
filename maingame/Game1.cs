@@ -19,13 +19,15 @@ namespace firstrate
         SpriteBatch spriteBatch;
 
         //select screen
-        private Texture2D selectScreen;
-        private Texture2D selector;
-        private SelectScreen loadSelectScreen = new SelectScreen();
+        private SelectScreen loadSelectScreen;
 
         //first area screen
         private Texture2D firstScreen;
         private FirstScreen loadFirstScreen = new FirstScreen();
+
+        //second area test
+        private SecondScreenTest secondScreenTest = new SecondScreenTest();
+
 
         //characters
         private Texture2D emberCharacter;
@@ -41,6 +43,7 @@ namespace firstrate
         private BoundingBox testBoundingBox;
 
         //collision
+        private LevelMap currentMap;
 
         public Game1()
         {
@@ -75,10 +78,6 @@ namespace firstrate
             graphics.PreferredBackBufferWidth = 700;
             graphics.ApplyChanges();
 
-            //load select screen
-            selectScreen = Content.Load<Texture2D>("selectscreen/selectscreen");
-            selector = Content.Load<Texture2D>("selectscreen/selector");
-
             //load firstscreen
             firstScreen = Content.Load<Texture2D>("firstarea/testbackground");
             
@@ -112,21 +111,35 @@ namespace firstrate
                 Exit();
 
             //selector screen control
-            if(!loadSelectScreen.isDone)
+            if(loadSelectScreen!=null)
             {
-                loadSelectScreen.Update();
+                if (!loadSelectScreen.isDone)
+                {
+                    loadSelectScreen.Update();
+                }
+            }
+            if(!loadFirstScreen.isDone)
+            {
+                loadFirstScreen.Update();
+                currentMap = loadFirstScreen.levelMap;
             }
             else
             {
-                animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                currentMap = secondScreenTest.levelMap;
+            }
 
+
+            //animation for main sprite
+            animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if(main!=null)
+            {
                 if (animationTimer > 120)
                 {
-                    main.Update(loadFirstScreen.levelMap);
+                    main.Update(currentMap);
                     animationTimer = 0;
                 }
             }
-    
+
             base.Update(gameTime);
         }
 
@@ -139,14 +152,26 @@ namespace firstrate
             spriteBatch.Begin();
 
             //draw select screen
-            if (!loadSelectScreen.isDone)
+            if (loadSelectScreen == null)
             {
-                loadSelectScreen.Draw(spriteBatch, selectScreen, selector);
+                loadSelectScreen = new SelectScreen(Content);
             }
-            else 
+            else
             {
-                loadFirstScreen.Draw(spriteBatch, firstScreen);
-
+                if (!loadSelectScreen.isDone)
+                {
+                    loadSelectScreen.Draw(spriteBatch);
+                }
+                else if (!loadFirstScreen.isDone)
+                {
+                    loadSelectScreen.UnloadContent();
+                    loadFirstScreen.Draw(spriteBatch, firstScreen);
+                }
+                else
+                {
+                    secondScreenTest.Draw(spriteBatch, firstScreen);
+                }
+             
                 //decide who is main and who is following character(s)
                 if (loadSelectScreen.selected.Equals("Gio"))
                 {
@@ -168,19 +193,21 @@ namespace firstrate
                 }
 
                 //draw main character and following character(s)
-                if (following.y <= main.y)
+                if (main != null)
                 {
-                    following.Draw(spriteBatch);
-                    main.Draw(spriteBatch);
+                    if (following.y <= main.y)
+                    {
+                        following.Draw(spriteBatch);
+                        main.Draw(spriteBatch);
+                    }
+                    else
+                    {
+                        main.Draw(spriteBatch);
+                        following.Draw(spriteBatch);
+                    }
                 }
-                else
-                {
-                    main.Draw(spriteBatch);
-                    following.Draw(spriteBatch);
-                }
-
+     
             }
-
             spriteBatch.End();
 
             base.Draw(gameTime);

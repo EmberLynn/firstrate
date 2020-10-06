@@ -11,34 +11,23 @@ using BoundingBox = firstrate.collision.BoundingBox;
 
 namespace firstrate.screens
 {
-    class FirstScreen
+    class SecondScreenTest
     {
         public LevelMap levelMap { get; }
         public List<int> coordinates { get; }
-        public bool isDone {get; set;}
-        public FirstScreen()
+        public SecondScreenTest()
         {
             levelMap = new LevelMap(700, 0, 700, 0);
             coordinates = new List<int>();
-            isDone = false;
+            
             //set all of the objects on the map
             coordinates.Add(1);
             coordinates.Add(1);
-            coordinates.Add(1);
-            coordinates.Add(2);
 
             levelMap.addObjects(coordinates);
         }
 
-        public void Update()
-        {
-            //Console.WriteLine("Inside update in firstscreen");
-            KeyboardState keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.P))
-            {
-                isDone = true;
-            }
-        }
+
 
         public void Draw(SpriteBatch spriteBatch, Texture2D firstScreen) 
         {
