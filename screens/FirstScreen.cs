@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using firstrate.collision;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BoundingBox = firstrate.collision.BoundingBox;
@@ -16,7 +17,10 @@ namespace firstrate.screens
         public LevelMap levelMap { get; }
         public List<int> coordinates { get; }
         public bool isDone {get; set;}
-        public FirstScreen()
+
+        //content to load
+        private Texture2D firstScreen;
+        public FirstScreen(ContentManager Content)
         {
             levelMap = new LevelMap(700, 0, 700, 0);
             coordinates = new List<int>();
@@ -26,8 +30,14 @@ namespace firstrate.screens
             coordinates.Add(1);
             coordinates.Add(1);
             coordinates.Add(2);
-
             levelMap.addObjects(coordinates);
+
+            this.firstScreen = Content.Load<Texture2D>("firstarea/testbackground");
+        }
+
+        public void UnloadContent()
+        {
+            firstScreen.Dispose();
         }
 
         public void Update()
@@ -40,9 +50,9 @@ namespace firstrate.screens
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Texture2D firstScreen) 
+        public void Draw(SpriteBatch spriteBatch) 
         {
-            spriteBatch.Draw(firstScreen, new Rectangle(0, 0, 700, 700), Color.White);
+            spriteBatch.Draw(this.firstScreen, new Rectangle(0, 0, 700, 700), Color.White);
         }
     }
 }
