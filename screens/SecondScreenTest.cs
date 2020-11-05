@@ -27,7 +27,7 @@ namespace firstrate.screens
             levelMap.addObjects(coordinates);
         }
 
-        //need to figure out how to add objects to levelMap
+
 
         public void Draw(SpriteBatch spriteBatch, Texture2D firstScreen) 
         {

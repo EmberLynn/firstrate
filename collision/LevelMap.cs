@@ -19,7 +19,6 @@ namespace firstrate.collision
 
         public List<BoundingBox> items { get; set; }
         
-        //get rid of params and hardcode size, for now
         public LevelMap(int highX, int lowX, int highY, int lowY) 
         {
             this.highX = highX;

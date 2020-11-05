@@ -22,9 +22,9 @@ namespace firstrate
         private SelectScreen loadSelectScreen;
 
         //first area screen
-        private FirstScreen loadFirstScreen;
+        private Texture2D firstScreen;
+        private FirstScreen loadFirstScreen = new FirstScreen();
 
-        //have one screen?  LevelMap is super
         //second area test
         private SecondScreenTest secondScreenTest = new SecondScreenTest();
 
@@ -79,6 +79,7 @@ namespace firstrate
             graphics.ApplyChanges();
 
             //load firstscreen
+            firstScreen = Content.Load<Texture2D>("firstarea/testbackground");
             
             //load characters
             gioCharacter = Content.Load<Texture2D>("sprites/giowalkcycle");
@@ -109,8 +110,6 @@ namespace firstrate
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //loop through list of levelmaps?
-            //if done move to next map?
             //selector screen control
             if(loadSelectScreen!=null)
             {
@@ -119,7 +118,7 @@ namespace firstrate
                     loadSelectScreen.Update();
                 }
             }
-            if(!loadFirstScreen.isDone && loadFirstScreen != null)
+            if(!loadFirstScreen.isDone)
             {
                 loadFirstScreen.Update();
                 currentMap = loadFirstScreen.levelMap;
@@ -166,11 +165,11 @@ namespace firstrate
                 else if (!loadFirstScreen.isDone)
                 {
                     loadSelectScreen.UnloadContent();
-                    loadFirstScreen.Draw(spriteBatch);
+                    loadFirstScreen.Draw(spriteBatch, firstScreen);
                 }
                 else
                 {
-                    //secondScreenTest.Draw(spriteBatch, firstScreen);
+                    secondScreenTest.Draw(spriteBatch, firstScreen);
                 }
              
                 //decide who is main and who is following character(s)
