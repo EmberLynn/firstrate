@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using firstrate.screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,13 +11,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace firstrate.selectscreen
 {
-    class SelectScreen
+    class SelectScreen : Screen
     {
         //select screen
         private int selectorX;
         private int selectorY;
-        public string selected { get; set;}
-        public Boolean isDone { get; set; }
+        //public string selected { get; set;}
+        //public bool isDone { get; set; }
 
         //Old keyboard state
         private KeyboardState oldState;
@@ -25,26 +26,22 @@ namespace firstrate.selectscreen
         private Texture2D selectScreen;
         private Texture2D selector;
 
-        private ContentManager content;
-
-        public SelectScreen(ContentManager Content)
+        public SelectScreen(ContentManager Content) : base(Content)
         {
             selectorX = 172;
             selectorY = 270;
             isDone = false;
-            selected = "";
-            this.selectScreen = Content.Load<Texture2D>("selectscreen/selectscreen");
-            this.selector = Content.Load<Texture2D>("selectscreen/selector");
-            this.content = Content;
+            selectScreen = Content.Load<Texture2D>("selectscreen/selectscreen");
+            selector = Content.Load<Texture2D>("selectscreen/selector");
         }
 
-        public void UnloadContent()
+        public override void UnloadContent()
         {
             selectScreen.Dispose();
             selector.Dispose();
         }
     
-        public void Update()
+        public override void Update()
         {
             KeyboardState keyboardState = Keyboard.GetState();
             if (oldState.IsKeyUp(Keys.D) && keyboardState.IsKeyDown(Keys.D))
@@ -59,11 +56,11 @@ namespace firstrate.selectscreen
             {
                 if (selectorX == 356)
                 {
-                    selected = "Ember";
+                    data = "Ember";
                 }
                 else
                 {
-                    selected = "Gio";
+                    data = "Gio";
                 }
 
                 isDone = true;
@@ -71,7 +68,7 @@ namespace firstrate.selectscreen
             oldState = keyboardState;
         }
 
-        public void Draw(SpriteBatch spriteBatch) 
+        public override void Draw(SpriteBatch spriteBatch) 
         {
             //draw select screen
             spriteBatch.Draw(this.selectScreen, new Rectangle(0, 0, 700, 700), Color.White);

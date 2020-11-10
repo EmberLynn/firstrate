@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using BoundingBox = firstrate.collision.BoundingBox;
 
 namespace firstrate
@@ -17,17 +18,6 @@ namespace firstrate
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        //select screen
-        private SelectScreen loadSelectScreen;
-
-        //first area screen
-        private Texture2D firstScreen;
-        private FirstScreen loadFirstScreen = new FirstScreen();
-
-        //second area test
-        private SecondScreenTest secondScreenTest = new SecondScreenTest();
-
 
         //characters
         private Texture2D emberCharacter;
@@ -45,6 +35,12 @@ namespace firstrate
         //collision
         private LevelMap currentMap;
 
+        //list of screens and current screen
+        private Dictionary<string, bool> screens = new Dictionary<string, bool>();
+        private Screen currentScreen;
+        //private bool isDone;
+        private string currentScreenName;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -60,6 +56,10 @@ namespace firstrate
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            //screens.Add("SelectScreen", false);
+            currentScreen = new SelectScreen(Content);
+            screens.Add("FirstScreen", false);
+            screens.Add("SecondScreenTest", false);
 
             base.Initialize();
         }
@@ -77,9 +77,6 @@ namespace firstrate
             graphics.PreferredBackBufferHeight = 700;
             graphics.PreferredBackBufferWidth = 700;
             graphics.ApplyChanges();
-
-            //load firstscreen
-            firstScreen = Content.Load<Texture2D>("firstarea/testbackground");
             
             //load characters
             gioCharacter = Content.Load<Texture2D>("sprites/giowalkcycle");
@@ -110,24 +107,8 @@ namespace firstrate
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //selector screen control
-            if(loadSelectScreen!=null)
-            {
-                if (!loadSelectScreen.isDone)
-                {
-                    loadSelectScreen.Update();
-                }
-            }
-            if(!loadFirstScreen.isDone)
-            {
-                loadFirstScreen.Update();
-                currentMap = loadFirstScreen.levelMap;
-            }
-            else
-            {
-                currentMap = secondScreenTest.levelMap;
-            }
-
+            currentScreen.Update();
+            currentMap = currentScreen.levelMap;
 
             //animation for main sprite
             animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -152,62 +133,56 @@ namespace firstrate
             spriteBatch.Begin();
 
             //draw select screen
-            if (loadSelectScreen == null)
+            //also have to check if currentScreen isDone before moving to next screen which would be a surrounding if statement
+            //within the surrounding if statement, set value of current screen to true
+            if(currentScreen.isDone)
             {
-                loadSelectScreen = new SelectScreen(Content);
-            }
-            else
-            {
-                if (!loadSelectScreen.isDone)
+                if (main == null && following == null)
                 {
-                    loadSelectScreen.Draw(spriteBatch);
-                }
-                else if (!loadFirstScreen.isDone)
-                {
-                    loadSelectScreen.UnloadContent();
-                    loadFirstScreen.Draw(spriteBatch, firstScreen);
-                }
-                else
-                {
-                    secondScreenTest.Draw(spriteBatch, firstScreen);
-                }
-             
-                //decide who is main and who is following character(s)
-                if (loadSelectScreen.selected.Equals("Gio"))
-                {
-                    if (main == null && following == null)
+                    if (currentScreen.data.Equals("Gio") && currentScreen.data != null)
                     {
                         following = new FollowingSprite(emberCharacter, 350, 349);
                         main = new MainSprite(gioCharacter, following, 350, 350);
                     }
-
-                }
-                else if (loadSelectScreen.selected.Equals("Ember"))
-                {
-                    if (main == null && following == null)
+                    else
                     {
                         following = new FollowingSprite(gioCharacter, 350, 349);
                         main = new MainSprite(emberCharacter, following, 350, 350);
                     }
-
                 }
 
-                //draw main character and following character(s)
-                if (main != null)
+                currentScreen.UnloadContent();
+                foreach (KeyValuePair<string, bool> entry in screens)
                 {
-                    if (following.y <= main.y)
+                    if (entry.Value == false)
                     {
-                        following.Draw(spriteBatch);
-                        main.Draw(spriteBatch);
-                    }
-                    else
-                    {
-                        main.Draw(spriteBatch);
-                        following.Draw(spriteBatch);
+                        Type screenType = Type.GetType("firstrate.screens." + entry.Key);
+                        currentScreen = (Screen)Activator.CreateInstance(screenType, Content);
+                        currentScreenName = entry.Key;
+                        break;
                     }
                 }
-     
+                screens[currentScreenName] = true;
             }
+             
+
+            currentScreen.Draw(spriteBatch);
+            
+           
+            if (main != null)
+            {
+                if (following.y <= main.y)
+                {
+                    following.Draw(spriteBatch);
+                    main.Draw(spriteBatch);
+                }
+                else
+                {
+                    main.Draw(spriteBatch);
+                    following.Draw(spriteBatch);
+                }
+            }
+     
             spriteBatch.End();
 
             base.Draw(gameTime);
