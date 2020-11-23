@@ -19,7 +19,7 @@ namespace firstrate.screens
 
         public Screen(ContentManager Content) { }
 
-        public virtual void Update() { }
+        public virtual void Update(float gameTime) { }
 
         public virtual void UnloadContent() { }
 

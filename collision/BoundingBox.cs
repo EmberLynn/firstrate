@@ -9,6 +9,7 @@ namespace firstrate.collision
 {
     class BoundingBox
     {
+        //collision is rudimentary, but good enough for now.  Will probably look into how to refine this further later.
         public Vector2 Position
         {
             get { return position; }

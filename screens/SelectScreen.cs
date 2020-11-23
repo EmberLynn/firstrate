@@ -41,7 +41,7 @@ namespace firstrate.selectscreen
             selector.Dispose();
         }
     
-        public override void Update()
+        public override void Update(float gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
             if (oldState.IsKeyUp(Keys.D) && keyboardState.IsKeyDown(Keys.D))

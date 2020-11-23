@@ -20,7 +20,7 @@ namespace firstrate.animation
 
         public FollowingSprite(Texture2D character, int x, int y)
         {
-            animateSprite = new AnimateSprite(character, 4, 4);
+            animateSprite = new AnimateSprite(character, 4, 4, true);
             this.x = x;
             this.y = y;
             movementBuffer = new List<int>();
@@ -69,7 +69,7 @@ namespace firstrate.animation
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            animateSprite.Draw(spriteBatch, new Vector2(x,y), row);
+            animateSprite.Draw(spriteBatch, new Vector2(x,(y-20)), row);
         }
     }
 }

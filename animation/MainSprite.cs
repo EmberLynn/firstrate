@@ -30,8 +30,8 @@ namespace firstrate.animation
 
         public MainSprite(Texture2D character, FollowingSprite followingSprite ,int x, int y) 
         {
-            boundingBox = new BoundingBox(new Vector2(x, y), 45, 50);
-            animateSprite = new AnimateSprite(character,4,4);
+            boundingBox = new BoundingBox(new Vector2(x, y), 45, 40);//figure out how to draw the bounding box on characters lower half
+            animateSprite = new AnimateSprite(character,4,4, true);
             this.followingSprite = followingSprite;
             this.x = x;
             this.y = y;
@@ -52,19 +52,19 @@ namespace firstrate.animation
                             boundingBox.Position = oldPosition;
                             if (keys[keys.Count - 1] == 'W')
                             {
-                                y += 6;
+                                y += 7;
                             }
                             if (keys[keys.Count - 1] == 'S')
                             {
-                                y -= 6;
+                                y -= 7;
                             }
                             if (keys[keys.Count - 1] == 'A')
                             {
-                                x += 7;
+                                x += 8;
                             }
                             if (keys[keys.Count - 1] == 'D')
                             {
-                                x -= 7;
+                                x -= 8;
                             }
 
                         }
@@ -144,7 +144,8 @@ namespace firstrate.animation
         public void Draw(SpriteBatch spriteBatch)
         {
             //followingSprite.Draw(spriteBatch);
-            animateSprite.Draw(spriteBatch, boundingBox.Position, row);
+            //animateSprite.Draw(spriteBatch, boundingBox.Position, row);//can't be the bounding boxes exact position -- needs to be higher
+            animateSprite.Draw(spriteBatch, new Vector2(x,(y-20)), row);
         }
 
     }

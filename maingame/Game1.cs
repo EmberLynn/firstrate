@@ -28,18 +28,12 @@ namespace firstrate
         private FollowingSprite following;
         private float animationTimer;
 
-        //test
-        private Texture2D pixelSquare;
-        private BoundingBox testBoundingBox;
-
         //collision
         private LevelMap currentMap;
 
         //list of screens and current screen
-        private Dictionary<string, bool> screens = new Dictionary<string, bool>();
+        private List<string> screens = new List<string>();
         private Screen currentScreen;
-        //private bool isDone;
-        private string currentScreenName;
 
         public Game1()
         {
@@ -56,10 +50,8 @@ namespace firstrate
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            //screens.Add("SelectScreen", false);
             currentScreen = new SelectScreen(Content);
-            screens.Add("FirstScreen", false);
-            screens.Add("SecondScreenTest", false);
+            screens.Add("FirstScreen");
 
             base.Initialize();
         }
@@ -81,11 +73,6 @@ namespace firstrate
             //load characters
             gioCharacter = Content.Load<Texture2D>("sprites/giowalkcycle");
             emberCharacter = Content.Load<Texture2D>("sprites/emberwalkcycle");
-           
-
-            //test
-            pixelSquare = Content.Load<Texture2D>("test/70sqpixel");
-            testBoundingBox = new BoundingBox(new Vector2(300, 100), 75, 75);
         }
 
         /// <summary>
@@ -107,7 +94,7 @@ namespace firstrate
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            currentScreen.Update();
+            currentScreen.Update(animationTimer);
             currentMap = currentScreen.levelMap;
 
             //animation for main sprite
@@ -141,8 +128,8 @@ namespace firstrate
                 {
                     if (currentScreen.data.Equals("Gio") && currentScreen.data != null)
                     {
-                        following = new FollowingSprite(emberCharacter, 350, 349);
-                        main = new MainSprite(gioCharacter, following, 350, 350);
+                        following = new FollowingSprite(emberCharacter, 500, 499);
+                        main = new MainSprite(gioCharacter, following, 500, 500);
                     }
                     else
                     {
@@ -152,17 +139,14 @@ namespace firstrate
                 }
 
                 currentScreen.UnloadContent();
-                foreach (KeyValuePair<string, bool> entry in screens)
+                foreach (string entry in screens)
                 {
-                    if (entry.Value == false)
-                    {
-                        Type screenType = Type.GetType("firstrate.screens." + entry.Key);
+                        Type screenType = Type.GetType("firstrate.screens." + entry);
                         currentScreen = (Screen)Activator.CreateInstance(screenType, Content);
-                        currentScreenName = entry.Key;
                         break;
-                    }
                 }
-                screens[currentScreenName] = true;
+                screens.RemoveAt(0);
+   
             }
              
 

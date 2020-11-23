@@ -28,10 +28,11 @@ namespace firstrate.collision
             this.items = new List<BoundingBox>();
         }
 
+        //might want to figure out a way to accept a range of coordinates to make large blocks of objects to collide with
         public void addObjects(List<int> coordinates)
         {
-            int y = 0;
-            int x = 0;
+            int y;
+            int x;
 
             for(int i = 0; i < coordinates.Count-1; i+=2)
             {

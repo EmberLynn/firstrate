@@ -19,17 +19,23 @@ namespace firstrate.animation
 
         //this object holds the atlas, knows how many images are in the atlas, and keeps track of 
         //what frame we are on in the atlas
-        public AnimateSprite(Texture2D texture, int rows, int columns)
+        public AnimateSprite(Texture2D texture, int rows, int columns, bool isMoving)
         {
             this.texture = texture;
             this.rows = rows;
             this.columns = columns;
             currentFrame = 0;
-            totalFrames = this.columns;
-
+            
+            if (isMoving)
+            {
+                totalFrames = this.columns;
+            }
+            else
+            {
+                totalFrames = this.rows * this.columns;
+            }
+          
         }
-
-        //updates to next frame in altas, returns to beginning of atlas when last frame in reached
         public void Update()
         {
             currentFrame++;
@@ -43,6 +49,10 @@ namespace firstrate.animation
         {
             int width = this.texture.Width / this.columns;
             int height = this.texture.Height / this.rows;
+            if(row == 0)
+            {
+                row = (int)((float)currentFrame / (float)this.columns);
+            }
             int column = currentFrame % this.columns;
 
             //the rectangle we want to draw
