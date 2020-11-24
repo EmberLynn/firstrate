@@ -69,7 +69,7 @@ namespace firstrate.animation
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            animateSprite.Draw(spriteBatch, new Vector2(x,(y-20)), row);
+            animateSprite.Draw(spriteBatch, new Vector2(x,(y-30)), row);
         }
     }
 }

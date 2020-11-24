@@ -10,6 +10,8 @@ namespace firstrate.collision
     class BoundingBox
     {
         //collision is rudimentary, but good enough for now.  Will probably look into how to refine this further later.
+
+        //object needs to know if it can be interacted with by the main player
         public Vector2 Position
         {
             get { return position; }
@@ -20,11 +22,14 @@ namespace firstrate.collision
         public float width { get; set; }
         public float height { get; set; }
 
-        public BoundingBox(Vector2 position, int width, int height)
+        public string name { get; set; }
+
+        public BoundingBox(Vector2 position, int width, int height, string name)
         {
             this.position = position;
             this.width = width;
             this.height = height;
+            this.name = name;
         }
 
         public float top

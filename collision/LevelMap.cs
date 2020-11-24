@@ -38,9 +38,15 @@ namespace firstrate.collision
             {
                 x = (coordinates[i] - 1) * 70;
                 y = (coordinates[i + 1] - 1) * 70;
-                items.Add(new BoundingBox(new Vector2(x, y), 70, 70));
+                items.Add(new BoundingBox(new Vector2(x, y), 70, 70, ""));
             }
-            
+        }
+
+        public void addObjectsWithName(int x, int y, string name)
+        {
+            /*x = x * 70;
+            y = y * 70;*/
+            items.Add(new BoundingBox(new Vector2((x-1)*70, (y-1)*70), 70, 70, name));
         }
 
     }

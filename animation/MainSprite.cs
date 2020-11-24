@@ -30,7 +30,7 @@ namespace firstrate.animation
 
         public MainSprite(Texture2D character, FollowingSprite followingSprite ,int x, int y) 
         {
-            boundingBox = new BoundingBox(new Vector2(x, y), 45, 40);//figure out how to draw the bounding box on characters lower half
+            boundingBox = new BoundingBox(new Vector2(x, y), 45, 40, "MainSprite");
             animateSprite = new AnimateSprite(character,4,4, true);
             this.followingSprite = followingSprite;
             this.x = x;
@@ -38,15 +38,17 @@ namespace firstrate.animation
        
         }
 
-        public void Update(LevelMap levelMap)
+        public string Update(LevelMap levelMap)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-
+            string objectName = "";
           
                 if (keys.Count > 0)
                 {
+                    //check if object can be interacted with
                     foreach (BoundingBox box in levelMap.items)
                     {
+                        objectName = box.name;
                         if (boundingBox.collisionCheck(box) || boundingBox.borderCollision(levelMap))
                         {
                             boundingBox.Position = oldPosition;
@@ -139,13 +141,12 @@ namespace firstrate.animation
             boundingBox.Position = new Vector2(x, y);
             oldState = keyboardState;
 
+            return objectName;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //followingSprite.Draw(spriteBatch);
-            //animateSprite.Draw(spriteBatch, boundingBox.Position, row);//can't be the bounding boxes exact position -- needs to be higher
-            animateSprite.Draw(spriteBatch, new Vector2(x,(y-20)), row);
+            animateSprite.Draw(spriteBatch, new Vector2(x,(y-30)), row);
         }
 
     }
