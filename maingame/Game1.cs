@@ -49,7 +49,7 @@ namespace firstrate
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            //screens
             currentScreen = new SelectScreen(Content);
             screens.Add("FirstScreen");
 
@@ -84,28 +84,26 @@ namespace firstrate
             // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            currentScreen.Update(animationTimer);
+            currentScreen.Update(animationTimer, main);
             currentMap = currentScreen.levelMap;
 
             //animation for main sprite
             animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if(main!=null)
             {
+                //if(!currentScreen.data.Equals("Lock")) -- don't want to lock update just movement
+
                 if (animationTimer > 120)
                 {
-                    main.Update(currentMap);
+                    currentScreen.data = main.Update(currentMap);
                     animationTimer = 0;
                 }
+
             }
 
             base.Update(gameTime);

@@ -65,6 +65,19 @@ namespace firstrate.collision
             return false;
         }
 
+        //used for object interaction -- want to check if near the object but not yet collided with it
+        public bool isClose(BoundingBox box)
+        {
+            if (this.left < (box.right+20)
+                && this.right > (box.left-20)
+                && this.top < (box.bottom+20)
+                && this.bottom > (box.top-20))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool borderCollision(LevelMap levelMap)
         {
             if(this.left < levelMap.lowX

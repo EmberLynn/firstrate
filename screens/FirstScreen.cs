@@ -29,11 +29,12 @@ namespace firstrate.screens
         private KeyboardState oldState;
         private bool drawDialog;
 
-        public FirstScreen(ContentManager Content) : base(Content)
+        public FirstScreen(ContentManager Content)
         {
             levelMap = new LevelMap(700, 0, 700, 0);
             coordinates = new List<int>();
             isDone = false;
+            data = "";
 
             //upper wall
             //would like to streamline the adding process at some point
@@ -69,15 +70,22 @@ namespace firstrate.screens
             levelMap.addObjects(coordinates);
         }
 
-        public override void Update(float gameTime)
+        public override void Update(float gameTime, MainSprite main)
         {
-            //talking to dog
-            //need to check if a collision with the dog happend
+            //talking to dogs
             KeyboardState keyboardState = Keyboard.GetState();
             if(oldState.IsKeyUp(Keys.Enter) && keyboardState.IsKeyDown(Keys.Enter))
             {
-                //just switching for testing
-                drawDialog = !drawDialog;
+                if(data.Equals("Dave"))
+                {
+                    drawDialog = !drawDialog;
+                    main.locked = true;
+                }
+            }
+            //for unlock test
+            if (keyboardState.IsKeyDown(Keys.P))
+            {
+                main.locked = false;
             }
 
             //dog animation

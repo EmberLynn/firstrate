@@ -25,8 +25,10 @@ namespace firstrate.animation
 
         //following
         private FollowingSprite followingSprite;
-        
 
+        //interactable objects
+        private string objectName = "";
+        public bool locked { get; set; }
 
         public MainSprite(Texture2D character, FollowingSprite followingSprite ,int x, int y) 
         {
@@ -35,20 +37,21 @@ namespace firstrate.animation
             this.followingSprite = followingSprite;
             this.x = x;
             this.y = y;
-       
+            locked = false;
         }
 
         public string Update(LevelMap levelMap)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-            string objectName = "";
-          
                 if (keys.Count > 0)
                 {
                     //check if object can be interacted with
                     foreach (BoundingBox box in levelMap.items)
                     {
-                        objectName = box.name;
+                        if(boundingBox.isClose(box))
+                        {
+                            objectName = box.name;
+                        }
                         if (boundingBox.collisionCheck(box) || boundingBox.borderCollision(levelMap))
                         {
                             boundingBox.Position = oldPosition;
@@ -109,6 +112,8 @@ namespace firstrate.animation
                     keys.Remove('D');
                 }
 
+            if (!locked) 
+            {
                 if (keys.Count != 0)
                 {
                     if (keys[keys.Count - 1] == 'W' && keyboardState.IsKeyDown(Keys.W))
@@ -130,11 +135,14 @@ namespace firstrate.animation
                     {
                         x += 7;
                         row = 3;
+                    }
+                    animateSprite.Update();
+                    followingSprite.Update(x, y, row);
+                    followingSprite.Update(x, y, row);
+                    objectName = "";
                 }
-                animateSprite.Update();
-                followingSprite.Update(x, y, row);
-                followingSprite.Update(x, y, row);
             }
+                
 
            
             oldPosition = boundingBox.Position;

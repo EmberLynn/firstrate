@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using firstrate.animation;
 
 namespace firstrate.selectscreen
 {
@@ -16,8 +17,6 @@ namespace firstrate.selectscreen
         //select screen
         private int selectorX;
         private int selectorY;
-        //public string selected { get; set;}
-        //public bool isDone { get; set; }
 
         //Old keyboard state
         private KeyboardState oldState;
@@ -26,7 +25,7 @@ namespace firstrate.selectscreen
         private Texture2D selectScreen;
         private Texture2D selector;
 
-        public SelectScreen(ContentManager Content) : base(Content)
+        public SelectScreen(ContentManager Content)
         {
             selectorX = 172;
             selectorY = 270;
@@ -41,7 +40,7 @@ namespace firstrate.selectscreen
             selector.Dispose();
         }
     
-        public override void Update(float gameTime)
+        public override void Update(float gameTime, MainSprite main)
         {
             KeyboardState keyboardState = Keyboard.GetState();
             if (oldState.IsKeyUp(Keys.D) && keyboardState.IsKeyDown(Keys.D))

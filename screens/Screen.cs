@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
+using firstrate.animation;
 
 namespace firstrate.screens
 {
@@ -17,9 +18,9 @@ namespace firstrate.screens
 
         public string data { get; set; }
 
-        public Screen(ContentManager Content) { }
+        public Screen() { }
 
-        public virtual void Update(float gameTime) { }
+        public virtual void Update(float gameTime, MainSprite main) { }
 
         public virtual void UnloadContent() { }
 
