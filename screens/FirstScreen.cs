@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BoundingBox = firstrate.collision.BoundingBox;
+using firstrate.helpers;
 
 
 namespace firstrate.screens
@@ -28,6 +29,9 @@ namespace firstrate.screens
         private Texture2D dialogScreen;
         private KeyboardState oldState;
         private bool drawDialog;
+        private DialogReader dialogReader = new DialogReader();
+        private SpriteFont retroFont;
+        private string currentDialog = "";
 
         public FirstScreen(ContentManager Content)
         {
@@ -63,9 +67,16 @@ namespace firstrate.screens
             //load content
             firstScreen = Content.Load<Texture2D>("tutorialscreen/tutotialroom");
             dialogScreen = Content.Load<Texture2D>("tutorialscreen/dialogscreen");
+            
+            //load font
+            retroFont = Content.Load<SpriteFont>("fonts/RetroFont");
 
             daveTheDog = Content.Load<Texture2D>("tutorialscreen/dogsprite");
             daveAnimation = new AnimateSprite(daveTheDog,2,4, false);
+
+            //dialog for dog
+            //using absolute path for now -- will be changed in the future, but this is good enough for now
+            dialogReader.getDialog(@"C:\Users\ember\source\repos\firstrate\Content\TestDialog.txt");
 
             levelMap.addObjects(coordinates);
         }
@@ -74,13 +85,19 @@ namespace firstrate.screens
         {
             //talking to dogs
             KeyboardState keyboardState = Keyboard.GetState();
-            if(oldState.IsKeyUp(Keys.Enter) && keyboardState.IsKeyDown(Keys.Enter))
+            if(data.Equals("Dave"))
             {
-                if(data.Equals("Dave"))
+                if (oldState.IsKeyUp(Keys.Enter) && keyboardState.IsKeyDown(Keys.Enter))
                 {
-                    drawDialog = !drawDialog;
+                    drawDialog = true;
                     main.locked = true;
+                    dialogReader.nextLine();
                 }
+            }
+          
+            if(drawDialog)
+            {
+                currentDialog = dialogReader.typeLine(animationTimer);
             }
             //for unlock test
             if (keyboardState.IsKeyDown(Keys.P))
@@ -107,7 +124,9 @@ namespace firstrate.screens
             if(drawDialog)
             {
                 spriteBatch.Draw(dialogScreen, new Rectangle(0, 529, 700, 171), Color.White);
+                spriteBatch.DrawString(retroFont, currentDialog, new Vector2(45, 570), Color.Red);
             }
+            
         }
     }
 }

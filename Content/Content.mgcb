@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:firstarea/testbackground.png
 
+#begin fonts/RetroFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/RetroFont.spritefont
+
 #begin selectscreen/selector.png
 /importer:TextureImporter
 /processor:TextureProcessor

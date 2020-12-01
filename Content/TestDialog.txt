@@ -1,0 +1,7 @@
+﻿This is a test of the dialog.
+_B
+We won't be saying anything important in here.
+I just wanted to test the text.
+_B
+I am still testing everything!
+_B
