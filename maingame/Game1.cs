@@ -129,8 +129,8 @@ namespace firstrate
                     }
                     else
                     {
-                        following = new FollowingSprite(gioCharacter, 350, 349);
-                        main = new MainSprite(emberCharacter, following, 350, 350);
+                        following = new FollowingSprite(gioCharacter, 500, 499);
+                        main = new MainSprite(emberCharacter, following, 500, 500);
                     }
                 }
 

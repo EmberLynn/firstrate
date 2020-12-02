@@ -109,15 +109,10 @@ namespace firstrate.screens
             {
                 currentDialog = dialogReader.typeLine(animationTimer);
             }
-            //for unlock test
-            if (keyboardState.IsKeyDown(Keys.P))
-            {
-                main.locked = false;
-            }
-
+           
             //dog animation
             animationTimer += gameTime;
-            if (animationTimer > 450)
+            if (animationTimer > 500)
             {
                 daveAnimation.Update();
                 animationTimer = 0;
