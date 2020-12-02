@@ -96,8 +96,6 @@ namespace firstrate
             animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if(main!=null)
             {
-                //if(!currentScreen.data.Equals("Lock")) -- don't want to lock update just movement
-
                 if (animationTimer > 120)
                 {
                     currentScreen.data = main.Update(currentMap);
@@ -137,6 +135,7 @@ namespace firstrate
                 }
 
                 currentScreen.UnloadContent();
+                //I don't think we need to loop through it?
                 foreach (string entry in screens)
                 {
                         Type screenType = Type.GetType("firstrate.screens." + entry);

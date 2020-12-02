@@ -89,9 +89,19 @@ namespace firstrate.screens
             {
                 if (oldState.IsKeyUp(Keys.Enter) && keyboardState.IsKeyDown(Keys.Enter))
                 {
+                    //lock the character's animation and allow the dialog box to be drawn
                     drawDialog = true;
                     main.locked = true;
                     dialogReader.nextLine();
+
+                    //reset the dialog reader and unlock character animation once we've reached the end of the dialog
+                    if(dialogReader.isDialogDone())
+                    {
+                        main.locked = false;
+                        drawDialog = false;
+                        dialogReader = new DialogReader();
+                        dialogReader.getDialog(@"C:\Users\ember\source\repos\firstrate\Content\TestDialog.txt");
+                    }
                 }
             }
           
