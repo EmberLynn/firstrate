@@ -15,7 +15,7 @@ namespace firstrate.helpers
         private string currentLine = "";
         private string typedLine = "";
         private int textCounter = 0;
-        private int enterCount = 1;
+        private int enterCount = 0;
         System.IO.StreamReader introFile;
 
         public DialogReader() { }
@@ -45,8 +45,8 @@ namespace firstrate.helpers
         {
            
             enterCount++;
-            //if they press enter the first time, finish the text
-            if(enterCount % 2 == 1)
+            //if they press enter the second time, finish the text
+            if(enterCount % 2 == 0)
             {
                 textCounter = currentLine.Length;
                 typedLine = currentLine;

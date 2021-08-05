@@ -68,6 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="screens\Screen.cs" />
     <Compile Include="screens\FirstScreen.cs" />
+    <Compile Include="screens\SecondScreen.cs" />
     <Compile Include="screens\SelectScreen.cs" />
   </ItemGroup>
   <ItemGroup>

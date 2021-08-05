@@ -63,6 +63,8 @@ namespace firstrate.screens
 
             //dog
             levelMap.addObjectsWithName(5, 5, "Dave");
+            //exit doorway at top right
+            levelMap.addObjectsWithName(10, 0, "Exit");//this sorta works, but not very well -- need something better
 
             //load content
             firstScreen = Content.Load<Texture2D>("tutorialscreen/tutotialroom");
@@ -87,6 +89,7 @@ namespace firstrate.screens
             KeyboardState keyboardState = Keyboard.GetState();
             if(data.Equals("Dave"))
             {
+                Console.WriteLine("You reached the exit");
                 if (oldState.IsKeyUp(Keys.Enter) && keyboardState.IsKeyDown(Keys.Enter))
                 {
                     //lock the character's animation and allow the dialog box to be drawn
@@ -109,11 +112,14 @@ namespace firstrate.screens
             {
                 currentDialog = dialogReader.typeLine(animationTimer);
             }
-            //for unlock test
-            if (keyboardState.IsKeyDown(Keys.P))
+
+            //check if they are at the exit
+            if (data.Equals("Exit"))
             {
-                main.locked = false;
+               // isDone = true;
+                Console.WriteLine("You reached the exit"); //never reaching this point -- have to remember how data is set
             }
+
 
             //dog animation
             animationTimer += gameTime;

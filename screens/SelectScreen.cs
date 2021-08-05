@@ -34,7 +34,7 @@ namespace firstrate.selectscreen
             selector = Content.Load<Texture2D>("selectscreen/selector");
         }
 
-        public override void UnloadContent()
+        public override void UnloadContent()//need to figure out if this is doing anything -- intent was to reduce memory usage
         {
             selectScreen.Dispose();
             selector.Dispose();

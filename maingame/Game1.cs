@@ -52,6 +52,7 @@ namespace firstrate
             //screens
             currentScreen = new SelectScreen(Content);
             screens.Add("FirstScreen");
+            screens.Add("SecondScreen");
 
             base.Initialize();
         }
@@ -138,10 +139,14 @@ namespace firstrate
                 //I don't think we need to loop through it?
                 foreach (string entry in screens)
                 {
-                        Type screenType = Type.GetType("firstrate.screens." + entry);
-                        currentScreen = (Screen)Activator.CreateInstance(screenType, Content);
-                        break;
+                    Type screenType = Type.GetType("firstrate.screens." + entry);
+                    currentScreen = (Screen)Activator.CreateInstance(screenType, Content);
+                    break;
                 }
+
+                /*  Type screenType = Type.GetType("firstrate.screens." + screens[0]);
+                  currentScreen = (Screen)Activator.CreateInstance(screenType, Content);
+                   */
                 screens.RemoveAt(0);
    
             }
